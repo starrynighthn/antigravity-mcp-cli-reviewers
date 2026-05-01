@@ -258,8 +258,10 @@ server.tool(
 
       if (target_type === "workspace_uncommitted") {
         const args = ["review", "--uncommitted"];
-        if (prompt) args.push(prompt);
         result = await runCommand(CLI_TOOLS.codex.bin, args, opts);
+        if (prompt) {
+          result.stderr += "\n[⚠️ Note: Custom prompt was ignored because 'codex review --uncommitted' does not support custom prompts.]";
+        }
       } else {
         if (!target_path) {
           throw new Error("target_path is required when target_type is file or artifact");
